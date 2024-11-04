@@ -1,0 +1,144 @@
+---
+title: "Proposal on FRIENDS"
+author:
+  - name: "Manas P Panse"
+    affiliations:
+      - name: "iSchool, University of Arizona"
+description: "An analysis of character dialogues, emotions, and episode metadata from the TV show Friends, aiming to uncover patterns in emotions, dialogue frequency, and relationships between characters across the seasons."
+format:
+  html:
+    code-tools: true
+    code-overflow: wrap
+    code-line-numbers: true
+    embed-resources: true
+    code-fold: true
+editor: source
+code-annotations: hover
+execute:
+  warning: false
+  message: false
+  error: false
+toc: true
+---
+
+# 1 - Introduction
+
+This project aims to investigate and analyze key character emotions, interactions, and patterns in the iconic ***FRIENDS*** TV show using a variety of datasets. By understanding how emotions evolve over time and the interaction patterns of characters, we can uncover insights about character development and audience engagement.
+
+# 2 - Workspace Setup
+
+```{python}
+#| label: workspace-setup
+#| code-summary: Workspace Setup
+
+# Importing Necessary Libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+
+# Setting Plot Styles
+sns.set_theme(style = "white")
+
+# Importing Datasets
+friends_df = pd.read_csv('data/friends.csv')
+friends_emotions_df = pd.read_csv('data/friends_emotions.csv')
+friends_info_df = pd.read_csv('data/friends_info.csv')
+```
+
+# 3 - Data
+
+```{python}
+#| label: friends-df-view
+#| code-summary: Friends Info
+
+# FRIENDS
+friends_df.info()
+```
+
+```{python}
+#| label: friends-emotions-view
+#| code-summary: Friends-Emotions Info
+
+# FRIENDS_EMOTIONS
+friends_emotions_df.info()
+```
+
+```{python}
+#| label: friends-info-view
+#| code-summary: Friends-Info Info
+
+# FRIENDS_INFO
+friends_info_df.info()
+```
+
+###### FRIENDS
+
+1.  Columns - `text`, `speaker`, `season`, `episode`, `scene`, `utterance`.
+2.  Rows - 67373
+3.  Info - This dataset contains EACH & EVERY line of dialogue that is spoken in the show, providing us with a rich database for analyzing chracter interactions & speech patterns.
+
+###### FRIENDS_EMOTIONS
+
+1.  Columns - `season`, `episode`, `scene`, `utterance`, `emotion`.
+2.  Rows - 12606
+3.  Info - This dataset provides an EMOTIONAL label for each line, allowing for an in - depth analysis of character emotions across episodes & seasons.
+
+###### FRIENDS_INFO
+
+1.  Columns - `season`, `episode`, `title`, `directed_by`, `written_by`, `air_data`, `us_views_millions`, `imdb_rating`.
+2.  Rows - 236
+3.  Info - This dataset is CRUCIAL for contextualizing the show's progression, viewership trends, and episode quality.
+
+I have chosen these ***FRIENDS*** datasets because, well I love the show; which for me is the ONLY reason. But for a more professional reason, these datasets provide an incredibly detailed glimpse into one of the **MOST BELOVED** TV shows of all time.
+
+As a massive fan, I am honestly interested about each of our ***FRIENDS*** development over time. This really might prove to be a treasure chest - containing insights into their emotions & personalities that have captivated the audience for decades (me personally few years).
+
+Exploring this dataset is like 'breaking the 4th Wall' for me, discovering the emotional highs and lows, understanding some intricate bonds between our ***FRIENDS*** & even predicting how future episodes might unfold based on certain recurring factors.
+
+# 4 - Questions
+
+1.  Which character dominates the dialogue in each EP and/or SS ?
+
+2.  Which character uses the most positive or optimistic language throughout the series ?
+
+3.  Can we predict which character will dominate an episode based on the director, episode rating, and viewership ?
+
+# 5 - Analysis Plan
+
+1.  Character Dominance Analysis :
+    1.  Variables Involved : `speaker`, `season`, `episode`, `scene`, `utterance`.
+    2.  Plan :
+        -   Group by `season`, `episode`, and `scene` to isolate dialogue counts within a scene; while by `season`, `episode` to isolate counts within episode.
+        -   Aggregate `utterance` counts for each of the FRIENDS to find the one with the most dialogue.
+        -   Visualize Results.
+2.  Language Usage :
+    1.  Variables Involved : `season`, `episode`, `speaker`, `text`.
+    2.  Plan :
+        -   Perform sentimental analysis on the `text` field to evaluate the tone.
+        -   Sum and compare scores by character.
+        -   Visualize Results.
+3.  Character Dominance Prediction :
+    1.  Variables Involved : `season`, `episode`, `directed_by`, `us_views_millions`, `imdb_rating`, `speaker`, `utterance`
+    2.  Plan :
+        -   Aggregate dialogue count per episode by character.
+        -   Develop a predictive model using `directed_by`, `us_views_millions`, `imdb_rating` as features.
+        -   Visualize Results.
+
+# 6 - Plan of Attack
+
+| **Task Name** | **Status** | **Due** | **Priority** | **Summary** |
+|---|---|---|---|---|
+| **Project Proposal and Initial Research** | Complete | 03-Nov-24 | High | Outline project goals, research questions, and data sources, centered on *Friends* TV show. |
+| **Project Proposal for Initial Instructor Review** | Completed | 03-Nov-24 | High | Submit the project proposal for instructor review, outlining goals, research questions, and data sources focused on *Friends* character dialogue and emotions. |
+| **Project Proposal for Final Instructor Review** | Incomplete | 10-Nov-24 | High | Amend the `proposal.qmd` with feedback from instructor & submit for final review.|
+| **Finalizing Project Outline** | Incomplete |
+| **Data Cleaning and Preparation** | Incomplete | x | Medium | Clean `friends_df`, `friends_emotions_df`, and `friends_info_df`, handling nulls, duplicates, and ensuring data consistency. |
+| **Character Dialogue Analysis** | Incomplete | x | Medium | Identify which character dominates the dialogue in each episode and scene, aggregating by `speaker`, `season`, and `episode`. |
+| **Emotion Analysis Per Character** | Incomplete | x | Medium | Analyze which character uses the most positive or optimistic language across the series using `friends_emotions_df`. |
+| **Predictive Analysis** | Incomplete | x | Medium | Develop a model to predict the character likely to dominate an episode based on `director`, `episode rating`, and `viewership`. |
+| **Visualization Development** | Incomplete | x | Medium | Create visualizations for each analysis question, including bar charts, donut charts, and heatmaps, to effectively show findings. |
+| **Report Compilation** | Incomplete | x | Low | Compile findings and visualizations into a structured report, narrating the analysis process and conclusions. |
+| **Presentation Preparation** | Incomplete   | x | Low | Create a final presentation summarizing key project insights for effective communication and sharing. |
+| **Final Submission** | Incomplete | x | Low | Submit all project files, including report, dashboard, and visualizations, and publish any related content on GitHub or a website. |

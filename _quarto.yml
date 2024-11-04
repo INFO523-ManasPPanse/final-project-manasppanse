@@ -1,0 +1,20 @@
+project:
+  type: website
+
+website:
+  title: F.R.I.E.N.D.S
+  navbar:
+    right:
+      - icon: github
+        href: https://github.com/INFO523-ManasPPanse/final-project-manasppanse
+    left:
+      - text: Proposal
+        href: proposal.qmd
+
+format:
+  html:
+    theme: zephyr
+    toc: true
+
+execute:
+  freeze: auto
