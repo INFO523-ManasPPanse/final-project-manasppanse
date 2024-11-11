@@ -112,21 +112,33 @@ Exploring this dataset is like 'breaking the 4th Wall' for me, discovering the e
     2.  Plan :
         -   Group by `season`, `episode`, and `scene` to isolate dialogue counts within a scene; while by `season`, `episode` to isolate counts within episode.
         -   Aggregate `utterance` counts for each of the FRIENDS to find the one with the most dialogue.
-        -   Visualize Results.
+        -   Visualize Results using a Bar or Line chart maybe.
 2.  Language Usage :
     1.  Variables Involved : `season`, `episode`, `speaker`, `text`.
-    2.  Plan :
+    2.  Model Development :
+        -   This could be approached in two ways -
+            -   If simplicity is our priority, utilizing a model like **TextBlob** would prove beneficial.
+            -   If complexity is our priority, utilizing a model like **BERT** would prove beneficial.
+    3.  Plan :
         -   Perform sentimental analysis on the `text` field to evaluate the tone.
         -   Sum and compare scores by character.
-        -   Visualize Results.
+        -   Visualize Results using a Donut chart maybe.
 3.  Character Dominance Prediction :
-    1.  Variables Involved : `season`, `episode`, `directed_by`, `us_views_millions`, `imdb_rating`, `speaker`, `utterance`
-    2.  Plan :
+    1.  Variables Involved : `season`, `episode`, `directed_by`, `us_views_millions`, `imdb_rating`, `speaker`, `utterance`.
+    2.  Model Development :
+        -   This could be approached using **Decision Trees** -
+            -   It will allow us to see how decisions are made at each node.
+            -   It is also easy to visualize.
+    3.  Plan :
         -   Aggregate dialogue count per episode by character.
         -   Develop a predictive model using `directed_by`, `us_views_millions`, `imdb_rating` as features.
-        -   Visualize Results.
+        -   Visualize Results using a Feature Importance chart maybe.
+        
+# 6 - Possible Limitations
 
-# 6 - Plan of Attack
+1.  The dataset `friends_emotions_df` has less rows than `friends_df`. This incompleteness in my data will cause some of the dialogues to not have an emotional label. This issue could possibly skew my analysis if these labels are utilized.
+
+# 7 - Plan of Attack
 
 | **Task Name** | **Status** | **Due** | **Priority** | **Summary** |
 |---|---|---|---|---|

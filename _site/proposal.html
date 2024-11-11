@@ -4744,7 +4744,8 @@ vertical-align: -.125em;
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">3 - Data</a></li>
   <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">4 - Questions</a></li>
   <li><a href="#analysis-plan" id="toc-analysis-plan" class="nav-link" data-scroll-target="#analysis-plan">5 - Analysis Plan</a></li>
-  <li><a href="#plan-of-attack" id="toc-plan-of-attack" class="nav-link" data-scroll-target="#plan-of-attack">6 - Plan of Attack</a></li>
+  <li><a href="#possible-limitations" id="toc-possible-limitations" class="nav-link" data-scroll-target="#possible-limitations">6 - Possible Limitations</a></li>
+  <li><a href="#plan-of-attack" id="toc-plan-of-attack" class="nav-link" data-scroll-target="#plan-of-attack">7 - Plan of Attack</a></li>
   </ul>
 </nav>
     </div>
@@ -4929,33 +4930,55 @@ memory usage: 14.9+ KB</code></pre>
 <ul>
 <li>Group by <code>season</code>, <code>episode</code>, and <code>scene</code> to isolate dialogue counts within a scene; while by <code>season</code>, <code>episode</code> to isolate counts within episode.</li>
 <li>Aggregate <code>utterance</code> counts for each of the FRIENDS to find the one with the most dialogue.</li>
-<li>Visualize Results.</li>
+<li>Visualize Results using a Bar or Line chart maybe.</li>
 </ul></li>
 </ol></li>
 <li>Language Usage :
 <ol type="1">
 <li>Variables Involved : <code>season</code>, <code>episode</code>, <code>speaker</code>, <code>text</code>.</li>
+<li>Model Development :
+<ul>
+<li>This could be approached in two ways -
+<ul>
+<li>If simplicity is our priority, utilizing a model like <strong>TextBlob</strong> would prove beneficial.</li>
+<li>If complexity is our priority, utilizing a model like <strong>BERT</strong> would prove beneficial.</li>
+</ul></li>
+</ul></li>
 <li>Plan :
 <ul>
 <li>Perform sentimental analysis on the <code>text</code> field to evaluate the tone.</li>
 <li>Sum and compare scores by character.</li>
-<li>Visualize Results.</li>
+<li>Visualize Results using a Donut chart maybe.</li>
 </ul></li>
 </ol></li>
 <li>Character Dominance Prediction :
 <ol type="1">
-<li>Variables Involved : <code>season</code>, <code>episode</code>, <code>directed_by</code>, <code>us_views_millions</code>, <code>imdb_rating</code>, <code>speaker</code>, <code>utterance</code></li>
+<li>Variables Involved : <code>season</code>, <code>episode</code>, <code>directed_by</code>, <code>us_views_millions</code>, <code>imdb_rating</code>, <code>speaker</code>, <code>utterance</code>.</li>
+<li>Model Development :
+<ul>
+<li>This could be approached using <strong>Decision Trees</strong> -
+<ul>
+<li>It will allow us to see how decisions are made at each node.</li>
+<li>It is also easy to visualize.</li>
+</ul></li>
+</ul></li>
 <li>Plan :
 <ul>
 <li>Aggregate dialogue count per episode by character.</li>
 <li>Develop a predictive model using <code>directed_by</code>, <code>us_views_millions</code>, <code>imdb_rating</code> as features.</li>
-<li>Visualize Results.</li>
+<li>Visualize Results using a Feature Importance chart maybe.</li>
 </ul></li>
 </ol></li>
 </ol>
 </section>
+<section id="possible-limitations" class="level1">
+<h1>6 - Possible Limitations</h1>
+<ol type="1">
+<li>The dataset <code>friends_emotions_df</code> has less rows than <code>friends_df</code>. This incompleteness in my data will cause some of the dialogues to not have an emotional label. This issue could possibly skew my analysis if these labels are utilized.</li>
+</ol>
+</section>
 <section id="plan-of-attack" class="level1">
-<h1>6 - Plan of Attack</h1>
+<h1>7 - Plan of Attack</h1>
 <table class="table">
 <colgroup>
 <col style="width: 20%">
@@ -5199,7 +5222,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/INFO523-ManasPPanse\.github\.io\/final-project-manasppanse\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -5680,36 +5703,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-120"><a href="#cb8-120"></a><span class="ss">    2.  </span>Plan :</span>
 <span id="cb8-121"><a href="#cb8-121"></a><span class="ss">        -   </span>Group by <span class="in">`season`</span>, <span class="in">`episode`</span>, and <span class="in">`scene`</span> to isolate dialogue counts within a scene; while by <span class="in">`season`</span>, <span class="in">`episode`</span> to isolate counts within episode.</span>
 <span id="cb8-122"><a href="#cb8-122"></a><span class="ss">        -   </span>Aggregate <span class="in">`utterance`</span> counts for each of the FRIENDS to find the one with the most dialogue.</span>
-<span id="cb8-123"><a href="#cb8-123"></a><span class="ss">        -   </span>Visualize Results.</span>
+<span id="cb8-123"><a href="#cb8-123"></a><span class="ss">        -   </span>Visualize Results using a Bar or Line chart maybe.</span>
 <span id="cb8-124"><a href="#cb8-124"></a><span class="ss">2.  </span>Language Usage :</span>
 <span id="cb8-125"><a href="#cb8-125"></a><span class="ss">    1.  </span>Variables Involved : <span class="in">`season`</span>, <span class="in">`episode`</span>, <span class="in">`speaker`</span>, <span class="in">`text`</span>.</span>
-<span id="cb8-126"><a href="#cb8-126"></a><span class="ss">    2.  </span>Plan :</span>
-<span id="cb8-127"><a href="#cb8-127"></a><span class="ss">        -   </span>Perform sentimental analysis on the <span class="in">`text`</span> field to evaluate the tone.</span>
-<span id="cb8-128"><a href="#cb8-128"></a><span class="ss">        -   </span>Sum and compare scores by character.</span>
-<span id="cb8-129"><a href="#cb8-129"></a><span class="ss">        -   </span>Visualize Results.</span>
-<span id="cb8-130"><a href="#cb8-130"></a><span class="ss">3.  </span>Character Dominance Prediction :</span>
-<span id="cb8-131"><a href="#cb8-131"></a><span class="ss">    1.  </span>Variables Involved : <span class="in">`season`</span>, <span class="in">`episode`</span>, <span class="in">`directed_by`</span>, <span class="in">`us_views_millions`</span>, <span class="in">`imdb_rating`</span>, <span class="in">`speaker`</span>, <span class="in">`utterance`</span></span>
-<span id="cb8-132"><a href="#cb8-132"></a><span class="ss">    2.  </span>Plan :</span>
-<span id="cb8-133"><a href="#cb8-133"></a><span class="ss">        -   </span>Aggregate dialogue count per episode by character.</span>
-<span id="cb8-134"><a href="#cb8-134"></a><span class="ss">        -   </span>Develop a predictive model using <span class="in">`directed_by`</span>, <span class="in">`us_views_millions`</span>, <span class="in">`imdb_rating`</span> as features.</span>
-<span id="cb8-135"><a href="#cb8-135"></a><span class="ss">        -   </span>Visualize Results.</span>
-<span id="cb8-136"><a href="#cb8-136"></a></span>
-<span id="cb8-137"><a href="#cb8-137"></a><span class="fu"># 6 - Plan of Attack</span></span>
-<span id="cb8-138"><a href="#cb8-138"></a></span>
-<span id="cb8-139"><a href="#cb8-139"></a>| **Task Name** | **Status** | **Due** | **Priority** | **Summary** |</span>
-<span id="cb8-140"><a href="#cb8-140"></a>|---|---|---|---|---|</span>
-<span id="cb8-141"><a href="#cb8-141"></a>| **Project Proposal and Initial Research** | Complete | 03-Nov-24 | High | Outline project goals, research questions, and data sources, centered on *Friends* TV show. |</span>
-<span id="cb8-142"><a href="#cb8-142"></a>| **Project Proposal for Initial Instructor Review** | Completed | 03-Nov-24 | High | Submit the project proposal for instructor review, outlining goals, research questions, and data sources focused on *Friends* character dialogue and emotions. |</span>
-<span id="cb8-143"><a href="#cb8-143"></a>| **Project Proposal for Final Instructor Review** | Incomplete | 10-Nov-24 | High | Amend the <span class="in">`proposal.qmd`</span> with feedback from instructor &amp; submit for final review.|</span>
-<span id="cb8-144"><a href="#cb8-144"></a>| **Finalizing Project Outline** | Incomplete |</span>
-<span id="cb8-145"><a href="#cb8-145"></a>| **Data Cleaning and Preparation** | Incomplete | x | Medium | Clean <span class="in">`friends_df`</span>, <span class="in">`friends_emotions_df`</span>, and <span class="in">`friends_info_df`</span>, handling nulls, duplicates, and ensuring data consistency. |</span>
-<span id="cb8-146"><a href="#cb8-146"></a>| **Character Dialogue Analysis** | Incomplete | x | Medium | Identify which character dominates the dialogue in each episode and scene, aggregating by <span class="in">`speaker`</span>, <span class="in">`season`</span>, and <span class="in">`episode`</span>. |</span>
-<span id="cb8-147"><a href="#cb8-147"></a>| **Emotion Analysis Per Character** | Incomplete | x | Medium | Analyze which character uses the most positive or optimistic language across the series using <span class="in">`friends_emotions_df`</span>. |</span>
-<span id="cb8-148"><a href="#cb8-148"></a>| **Predictive Analysis** | Incomplete | x | Medium | Develop a model to predict the character likely to dominate an episode based on <span class="in">`director`</span>, <span class="in">`episode rating`</span>, and <span class="in">`viewership`</span>. |</span>
-<span id="cb8-149"><a href="#cb8-149"></a>| **Visualization Development** | Incomplete | x | Medium | Create visualizations for each analysis question, including bar charts, donut charts, and heatmaps, to effectively show findings. |</span>
-<span id="cb8-150"><a href="#cb8-150"></a>| **Report Compilation** | Incomplete | x | Low | Compile findings and visualizations into a structured report, narrating the analysis process and conclusions. |</span>
-<span id="cb8-151"><a href="#cb8-151"></a>| **Presentation Preparation** | Incomplete   | x | Low | Create a final presentation summarizing key project insights for effective communication and sharing. |</span>
-<span id="cb8-152"><a href="#cb8-152"></a>| **Final Submission** | Incomplete | x | Low | Submit all project files, including report, dashboard, and visualizations, and publish any related content on GitHub or a website. |</span>
+<span id="cb8-126"><a href="#cb8-126"></a><span class="ss">    2.  </span>Model Development :</span>
+<span id="cb8-127"><a href="#cb8-127"></a><span class="ss">        -   </span>This could be approached in two ways -</span>
+<span id="cb8-128"><a href="#cb8-128"></a><span class="ss">            -   </span>If simplicity is our priority, utilizing a model like **TextBlob** would prove beneficial.</span>
+<span id="cb8-129"><a href="#cb8-129"></a><span class="ss">            -   </span>If complexity is our priority, utilizing a model like **BERT** would prove beneficial.</span>
+<span id="cb8-130"><a href="#cb8-130"></a><span class="ss">    3.  </span>Plan :</span>
+<span id="cb8-131"><a href="#cb8-131"></a><span class="ss">        -   </span>Perform sentimental analysis on the <span class="in">`text`</span> field to evaluate the tone.</span>
+<span id="cb8-132"><a href="#cb8-132"></a><span class="ss">        -   </span>Sum and compare scores by character.</span>
+<span id="cb8-133"><a href="#cb8-133"></a><span class="ss">        -   </span>Visualize Results using a Donut chart maybe.</span>
+<span id="cb8-134"><a href="#cb8-134"></a><span class="ss">3.  </span>Character Dominance Prediction :</span>
+<span id="cb8-135"><a href="#cb8-135"></a><span class="ss">    1.  </span>Variables Involved : <span class="in">`season`</span>, <span class="in">`episode`</span>, <span class="in">`directed_by`</span>, <span class="in">`us_views_millions`</span>, <span class="in">`imdb_rating`</span>, <span class="in">`speaker`</span>, <span class="in">`utterance`</span>.</span>
+<span id="cb8-136"><a href="#cb8-136"></a><span class="ss">    2.  </span>Model Development :</span>
+<span id="cb8-137"><a href="#cb8-137"></a><span class="ss">        -   </span>This could be approached using **Decision Trees** -</span>
+<span id="cb8-138"><a href="#cb8-138"></a><span class="ss">            -   </span>It will allow us to see how decisions are made at each node.</span>
+<span id="cb8-139"><a href="#cb8-139"></a><span class="ss">            -   </span>It is also easy to visualize.</span>
+<span id="cb8-140"><a href="#cb8-140"></a><span class="ss">    3.  </span>Plan :</span>
+<span id="cb8-141"><a href="#cb8-141"></a><span class="ss">        -   </span>Aggregate dialogue count per episode by character.</span>
+<span id="cb8-142"><a href="#cb8-142"></a><span class="ss">        -   </span>Develop a predictive model using <span class="in">`directed_by`</span>, <span class="in">`us_views_millions`</span>, <span class="in">`imdb_rating`</span> as features.</span>
+<span id="cb8-143"><a href="#cb8-143"></a><span class="ss">        -   </span>Visualize Results using a Feature Importance chart maybe.</span>
+<span id="cb8-144"><a href="#cb8-144"></a>        </span>
+<span id="cb8-145"><a href="#cb8-145"></a><span class="fu"># 6 - Possible Limitations</span></span>
+<span id="cb8-146"><a href="#cb8-146"></a></span>
+<span id="cb8-147"><a href="#cb8-147"></a><span class="ss">1.  </span>The dataset <span class="in">`friends_emotions_df`</span> has less rows than <span class="in">`friends_df`</span>. This incompleteness in my data will cause some of the dialogues to not have an emotional label. This issue could possibly skew my analysis if these labels are utilized.</span>
+<span id="cb8-148"><a href="#cb8-148"></a></span>
+<span id="cb8-149"><a href="#cb8-149"></a><span class="fu"># 7 - Plan of Attack</span></span>
+<span id="cb8-150"><a href="#cb8-150"></a></span>
+<span id="cb8-151"><a href="#cb8-151"></a>| **Task Name** | **Status** | **Due** | **Priority** | **Summary** |</span>
+<span id="cb8-152"><a href="#cb8-152"></a>|---|---|---|---|---|</span>
+<span id="cb8-153"><a href="#cb8-153"></a>| **Project Proposal and Initial Research** | Complete | 03-Nov-24 | High | Outline project goals, research questions, and data sources, centered on *Friends* TV show. |</span>
+<span id="cb8-154"><a href="#cb8-154"></a>| **Project Proposal for Initial Instructor Review** | Completed | 03-Nov-24 | High | Submit the project proposal for instructor review, outlining goals, research questions, and data sources focused on *Friends* character dialogue and emotions. |</span>
+<span id="cb8-155"><a href="#cb8-155"></a>| **Project Proposal for Final Instructor Review** | Incomplete | 10-Nov-24 | High | Amend the <span class="in">`proposal.qmd`</span> with feedback from instructor &amp; submit for final review.|</span>
+<span id="cb8-156"><a href="#cb8-156"></a>| **Finalizing Project Outline** | Incomplete |</span>
+<span id="cb8-157"><a href="#cb8-157"></a>| **Data Cleaning and Preparation** | Incomplete | x | Medium | Clean <span class="in">`friends_df`</span>, <span class="in">`friends_emotions_df`</span>, and <span class="in">`friends_info_df`</span>, handling nulls, duplicates, and ensuring data consistency. |</span>
+<span id="cb8-158"><a href="#cb8-158"></a>| **Character Dialogue Analysis** | Incomplete | x | Medium | Identify which character dominates the dialogue in each episode and scene, aggregating by <span class="in">`speaker`</span>, <span class="in">`season`</span>, and <span class="in">`episode`</span>. |</span>
+<span id="cb8-159"><a href="#cb8-159"></a>| **Emotion Analysis Per Character** | Incomplete | x | Medium | Analyze which character uses the most positive or optimistic language across the series using <span class="in">`friends_emotions_df`</span>. |</span>
+<span id="cb8-160"><a href="#cb8-160"></a>| **Predictive Analysis** | Incomplete | x | Medium | Develop a model to predict the character likely to dominate an episode based on <span class="in">`director`</span>, <span class="in">`episode rating`</span>, and <span class="in">`viewership`</span>. |</span>
+<span id="cb8-161"><a href="#cb8-161"></a>| **Visualization Development** | Incomplete | x | Medium | Create visualizations for each analysis question, including bar charts, donut charts, and heatmaps, to effectively show findings. |</span>
+<span id="cb8-162"><a href="#cb8-162"></a>| **Report Compilation** | Incomplete | x | Low | Compile findings and visualizations into a structured report, narrating the analysis process and conclusions. |</span>
+<span id="cb8-163"><a href="#cb8-163"></a>| **Presentation Preparation** | Incomplete   | x | Low | Create a final presentation summarizing key project insights for effective communication and sharing. |</span>
+<span id="cb8-164"><a href="#cb8-164"></a>| **Final Submission** | Incomplete | x | Low | Submit all project files, including report, dashboard, and visualizations, and publish any related content on GitHub or a website. |</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
