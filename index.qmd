@@ -1,0 +1,29 @@
+---
+title: "Index on F.R.I.E.N.D.S"
+author:
+  - name: "Manas P Panse"
+    affiliations:
+      - name: "iSchool, University of Arizona"
+description: "An analysis of character dialogues, emotions, and episode metadata from the TV show Friends, aiming to uncover patterns in emotions, dialogue frequency, and relationships between characters across the seasons."
+format:
+  html:
+    code-tools: true
+    code-overflow: wrap
+    embed-resources: true
+    code-fold: true
+editor: source
+code-annotations: hover
+execute:
+  warning: false
+  message: false
+  error: false
+toc: true
+---
+
+Navigate via the navbar links or click below to dive deep in the Project on **FRIENDS** :
+
+1.  [Proposal](proposal.qmd)
+
+2.  [Project](project.qmd)
+
+3.  [Presentation](presentation.qmd)

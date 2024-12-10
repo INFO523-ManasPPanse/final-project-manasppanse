@@ -10,6 +10,10 @@ website:
     left:
       - text: Proposal
         href: proposal.qmd
+      - text: Project
+        href: project.qmd
+      - text: Presentation
+        href: presentation.qmd
 
 format:
   html:

@@ -1,5 +1,5 @@
 ---
-title: "Proposal on FRIENDS"
+title: "Proposal on F.R.I.E.N.D.S"
 author:
   - name: "Manas P Panse"
     affiliations:
@@ -99,58 +99,59 @@ Exploring this dataset is like 'breaking the 4th Wall' for me, discovering the e
 
 # 4 - Questions
 
-1.  Which character dominates the dialogue in each EP and/or SS ?
+***Based on my analysis, questions have been altered.***
 
-2.  Which character uses the most positive or optimistic language throughout the series ?
+1.  How are IMDb rating trends and viewership trends for the show ?
 
-3.  Can we predict which character will dominate an episode based on the director, episode rating, and viewership ?
+2.  Which character dominates the dialogue in each EP and/or SS ?
+
+3.  Which character uses the most positive or optimistic language throughout the series ?
 
 # 5 - Analysis Plan
 
-1.  Character Dominance Analysis :
-    1.  Variables Involved : `speaker`, `season`, `episode`, `scene`, `utterance`.
+***Based on my analysis, the analysis plan has been altered.***
+
+3.  IMDb Rating & Viewership Trends :
+    1.  Variables Involved : `season`, `episode`, `us_views_millions`, `imdb_rating`.
     2.  Plan :
-        -   Group by `season`, `episode`, and `scene` to isolate dialogue counts within a scene; while by `season`, `episode` to isolate counts within episode.
-        -   Aggregate `utterance` counts for each of the FRIENDS to find the one with the most dialogue.
-        -   Visualize Results using a Bar or Line chart maybe.
-2.  Language Usage :
+        -   Aggregate the IMDb ratings & viewership per season.
+        -   Visualize results using line plots separately for IMDb ratings & viewership.
+
+2.  Character Dominance Analysis :
+    1.  Variables Involved : `speaker`, `season`, `episode`, `utterance`.
+    2.  Plan :
+        -   Group by `season`, `episode` to isolate counts within season AND `season`, `episode` to isolate dialogue counts within an episode.
+        -   Aggregate `utterance` counts for each of the F.R.I.E.N.D.S to find the one with the most dialogue.
+        -   Visualize results using bar plots.
+
+3.  Language Usage :
     1.  Variables Involved : `season`, `episode`, `speaker`, `text`.
     2.  Model Development :
-        -   This could be approached in two ways -
-            -   If simplicity is our priority, utilizing a model like **TextBlob** would prove beneficial.
-            -   If complexity is our priority, utilizing a model like **BERT** would prove beneficial.
+        -   This will be approached in two ways -
+            -   For simplicity as our priority, utilizing the **TextBlob** model would prove beneficial.
+            -   For complexity as our priority, utilizing the **BigBird** model would prove beneficial.
     3.  Plan :
         -   Perform sentimental analysis on the `text` field to evaluate the tone.
-        -   Sum and compare scores by character.
-        -   Visualize Results using a Donut chart maybe.
-3.  Character Dominance Prediction :
-    1.  Variables Involved : `season`, `episode`, `directed_by`, `us_views_millions`, `imdb_rating`, `speaker`, `utterance`.
-    2.  Model Development :
-        -   This could be approached using **Decision Trees** -
-            -   It will allow us to see how decisions are made at each node.
-            -   It is also easy to visualize.
-    3.  Plan :
-        -   Aggregate dialogue count per episode by character.
-        -   Develop a predictive model using `directed_by`, `us_views_millions`, `imdb_rating` as features.
-        -   Visualize Results using a Feature Importance chart maybe.
+        -   Compare polarity scores by character
+        -   Visualize results using donut plots.
         
 # 6 - Possible Limitations
 
 1.  The dataset `friends_emotions_df` has less rows than `friends_df`. This incompleteness in my data will cause some of the dialogues to not have an emotional label. This issue could possibly skew my analysis if these labels are utilized.
 
-# 7 - Plan of Attack
+# 7 - Modus Operandi
+
+***Based on my analysis, this has been altered.***
 
 | **Task Name** | **Status** | **Due** | **Priority** | **Summary** |
 |---|---|---|---|---|
-| **Project Proposal and Initial Research** | Complete | 03-Nov-24 | High | Outline project goals, research questions, and data sources, centered on *Friends* TV show. |
-| **Project Proposal for Initial Instructor Review** | Completed | 03-Nov-24 | High | Submit the project proposal for instructor review, outlining goals, research questions, and data sources focused on *Friends* character dialogue and emotions. |
-| **Project Proposal for Final Instructor Review** | Incomplete | 10-Nov-24 | High | Amend the `proposal.qmd` with feedback from instructor & submit for final review.|
-| **Finalizing Project Outline** | Incomplete |
-| **Data Cleaning and Preparation** | Incomplete | x | Medium | Clean `friends_df`, `friends_emotions_df`, and `friends_info_df`, handling nulls, duplicates, and ensuring data consistency. |
-| **Character Dialogue Analysis** | Incomplete | x | Medium | Identify which character dominates the dialogue in each episode and scene, aggregating by `speaker`, `season`, and `episode`. |
-| **Emotion Analysis Per Character** | Incomplete | x | Medium | Analyze which character uses the most positive or optimistic language across the series using `friends_emotions_df`. |
-| **Predictive Analysis** | Incomplete | x | Medium | Develop a model to predict the character likely to dominate an episode based on `director`, `episode rating`, and `viewership`. |
-| **Visualization Development** | Incomplete | x | Medium | Create visualizations for each analysis question, including bar charts, donut charts, and heatmaps, to effectively show findings. |
-| **Report Compilation** | Incomplete | x | Low | Compile findings and visualizations into a structured report, narrating the analysis process and conclusions. |
-| **Presentation Preparation** | Incomplete   | x | Low | Create a final presentation summarizing key project insights for effective communication and sharing. |
-| **Final Submission** | Incomplete | x | Low | Submit all project files, including report, dashboard, and visualizations, and publish any related content on GitHub or a website. |
+| **Initial Research** | COMPLETE | 03-Nov-24 | HIGH | Outline project goals, research questions, and data sources centered on 90s TV sitcom *FRIENDS*. |
+| **Project Proposal for Initial Review** | COMPLETE | 03-Nov-24 | HIGH | Submit the project proposal for initial instructor review, outlining the goals, research questions, and the plan of attack. |
+| **Project Proposal for Final Review** | COMPLETE | 10-Nov-24 | HIGH | Amend the necessary changes suggested by the instructor to the `proposal.qmd`, and submit for final review. |
+| **Abstract & Workspace Setup** | COMPLETE | 09-Dec-24 | HIGH | Summarize the project, along with the necessary datasets, and import necessary libraries and datasets into the environment. |
+| **IMDb Ratings Trend** | COMPLETE | 09-Dec-24 | HIGH | Analyze the `friends_info.csv` dataset to aggregate IMDb ratings per season & plot the line graph to assess their growth or decline. |
+| **Viewership Trend** | COMPLETE | 09-Dec-24 | HIGH | Analyze the `friends_info.csv` dataset to aggregate US viewership per season & plot a line graph to assess their growth or decline. |
+| **Character Dominance** | COMPLETE | 09-Dec-24 | HIGH | Analyze the `friends.csv` dataset to identify the character who dominates dialogue in each season & episode. Aggregate the dialogue counts & the visualize interactive bar graphs separately for season & episode. |
+| **Emotional Tone Analysis** | COMPLETE | 09-Dec-24 | HIGH | Perform sentiment analysis on the `friends.csv` dataset using *TextBlob* and *BigBird* and visualize the polarity of dialogues spoken by the main cast using donut charts. |
+| **Website Update** | COMPLETE | 09-Dec-2024 | HIGH | Render the website for the last time. :) |
+| **Final Commit & Push** | COMPLETE | 09-Dec-2024 | HIGH | Confirm all changes & submit the code for the last time. :) |

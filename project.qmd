@@ -1,0 +1,301 @@
+---
+title: "Project on F.R.I.E.N.D.S"
+author:
+  - name: "Manas P Panse"
+    affiliations:
+      - name: "iSchool, University of Arizona"
+description: "An analysis of character dialogues, emotions, and episode metadata from the TV show Friends, aiming to uncover patterns in emotions, dialogue frequency, and relationships between characters across the seasons."
+format:
+  html:
+    code-tools: true
+    code-overflow: wrap
+    embed-resources: true
+    code-fold: true
+editor: source
+code-annotations: hover
+execute:
+  warning: false
+  message: false
+  error: false
+toc: true
+---
+
+# 0 - Abstract & Workspace Setup💻
+
+This project delves deep into the **dialogue dynamics**, **emotional patterns**, and **character interactions** in the iconic TV show *FRIENDS*. The foundation pillars of this project are :
+
+1.  `friends.csv` : Contains every line of dialogue spoken across all 10 seasons, with key variables such as speaker, season, episode, scene, and utterance.
+
+2.  `friends_emotions.csv` : Assigns an emotional label to the dialogues, enabling sentiment analysis and tracking of character emotions.
+
+3.  `friends_info.csv` : Provides contextual metadata about each episode, including directed_by, written_by, us_views_millions, and imdb_rating.
+
+My analysis is divided into these 🔑 sections :
+
+1.  Viewership & IMDb Rating Trends Over Time📈 :
+    a.  Objective - Analyze the average IMDb ratings and US viewership for each episode over time.
+    b.  Approach -
+        -   Calculate the average IMDb rating and average US viewership for each season.
+        -   Then plot these trends separately across seasons to see if there's a consistent increase/decrease in ratings & viewership over time.
+    c.  Insight - Understand whether the show improved in terms of both quality and popularity over time or were there any dips.
+
+2.  Character Domination👑 :
+    a.  Objective - Identify which character dominates the dialogue in each season and episode.
+    b.  Approach -
+        -   Aggregate the number of lines spoken by each character per season & episode.
+        -   Visualize the results using bar charts to plot the dominant character.
+    c.  Insight - Uncover which characters take center stage in different story arcs and how their roles evolve across seasons.
+
+3.  Emotional Tone Analysis💬 :
+    a.  Objective - Determine which character uses the most positive or optimistic language throughout the series.
+    b.  Approach -
+        -   Perform sentiment analysis using models like TextBlob for simplicity and BigBird for nuanced contextual analysis.
+        -   Compare polarity scores by character.
+        -   Visualize emotional tone distribution using donut charts and scatter plots.
+    c.  Insight - Explore how each character's emotional expression contributes to the show's tone and audience appeal.
+    
+```{python}
+#| label: workspace-setup
+#| code-summary: Workspace Setup
+
+# Importing Necessary Libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+from itertools import combinations
+from textblob import TextBlob
+
+# Setting Plot Aesthetics
+sns.set_theme(style = "white")
+
+# Importing Datasets
+friends_df = pd.read_csv('data/friends.csv')
+emotions_df = pd.read_csv('data/friends_emotions.csv')
+info_df = pd.read_csv('data/friends_info.csv')
+```
+
+# 1 - Viewership & IMDb Ratings Over Time📈
+
+## A - IMDb Ratings Trend
+
+```{python}
+#| label: imdb-ratings-plot
+#| code-summary: Aggregating & Plotting
+
+# Aggregating
+season_imdb = info_df.groupby("season")["imdb_rating"].mean().reset_index()
+
+# Plotting
+plt.figure(figsize = (8, 6))
+plt.plot(season_imdb["season"], season_imdb["imdb_rating"], marker = "o", linestyle = "-", color = "green", alpha = 0.8)
+plt.title("Average IMDb Rating per Season", fontsize = 16)
+plt.xlabel("Season", fontsize = 12)
+plt.ylabel("Average IMDb Rating", fontsize = 12)
+plt.xticks(season_imdb["season"])
+plt.grid(alpha = 0.5)
+plt.show()
+```
+
+## B - Viewership Trend
+
+```{python}
+#| label: viewership-plot
+#| code-summary: Aggregating & Plotting
+
+# Aggregating
+season_views = info_df.groupby("season")["us_views_millions"].mean().reset_index()
+
+# Plotting
+plt.figure(figsize = (8, 6))
+plt.plot(season_views["season"], season_views["us_views_millions"], marker = "o", linestyle = "-", color = "red", alpha = 0.8)
+plt.title("Average Viewership per Season", fontsize = 16)
+plt.xlabel("Season", fontsize = 12)
+plt.ylabel("Average Viewership (in millions)", fontsize = 12)
+plt.xticks(season_views["season"])
+plt.grid(alpha = 0.5)
+plt.show()
+```
+
+# 2 - Character Dialogue Domination👑
+
+## A - Per Season
+
+```{python}
+#| label: character-dominance-ss
+#| code-summary: Aggregating Dialogue Count by Season
+
+# Grouping
+dominant_dialogue_ss = (friends_df.groupby(['season', 'speaker']).size().reset_index(name = 'dialogue_count'))
+dominant_character_ss = dominant_dialogue_ss.loc[dominant_dialogue_ss.groupby(['season'])['dialogue_count'].idxmax()].reset_index(drop = True)
+```
+
+```{python}
+#| label: dominate-character-ss-plot
+#| code-summary: Plotting Most Dominant Character
+
+# Original Plot
+fig_ss = px.bar(
+    dominant_character_ss, x = "season", y = "dialogue_count", color = "speaker", title = "Most Dominant Character by Season",
+    labels = {"season": "Season", "dialogue_count": "Dialogue Count", "speaker": "Character"}
+)
+
+# Updating Plot
+fig_ss.update_layout(
+    title={
+        'text': "Most Dominant Character by Season", 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top', 'font': dict(size = 16),
+    },
+    showlegend = True, legend_title_text = "Character"
+)
+
+# Updated Plot
+fig_ss.show()
+```
+
+## A - Per Episode
+
+```{python}
+#| label: character-dominance-ep
+#| code-summary: Aggregating Dialogue Count by Character
+
+# Grouping to No of Dialogues for Each Character
+dominant_dialogue_ep = (friends_df.groupby(['season', 'episode', 'speaker']).size().reset_index(name = 'dialogue_count'))
+
+# Finding Character with MAX Dialogue Count
+dominant_character_ep = dominant_dialogue_ep.loc[dominant_dialogue_ep.groupby(['season', 'episode'])['dialogue_count'].idxmax()].reset_index(drop = True)
+
+# Filtering out "Scene Directions"
+filtered_dialogue_ep = dominant_dialogue_ep[dominant_dialogue_ep["speaker"] != "Scene Directions"]
+
+# Identify 2nd Most Dominant if "Scene Directions" was the Original Dominant
+dominant_character_ep = (filtered_dialogue_ep.loc[filtered_dialogue_ep.groupby(['season', 'episode'])['dialogue_count'].idxmax()]).reset_index(drop = True)
+```
+
+```{python}
+#| label: character-dominance-ep-plot
+#| code-summary: Plotting Most Dominant Character
+
+# Plotting the Most Dominant Character by Episode
+fig_ep = px.bar(
+    dominant_character_ep,
+    x = "episode",
+    y = "dialogue_count",
+    color = "speaker",
+    facet_row = "season",
+    title = "Most Dominant Character by Episode",
+    labels = {"episode": "Episode", "dialogue_count": "", "speaker": "Character"},
+    height = 600,
+    facet_row_spacing = 0.03,
+)
+
+# Customizing Layout
+fig_ep.update_layout(
+    title={
+        'text': "Most Dominant Character by Episode",
+        'x': 0.5,
+        'xanchor': 'center',
+        'yanchor': 'top',
+        'font': dict(size = 16)
+    }
+)
+
+# Updating Layout
+fig_ep.update_layout(
+    showlegend = True,
+    legend_title_text = "Character",
+    yaxis_title = "Dialogue Count",
+    uniformtext_minsize = 10,
+    uniformtext_mode = "hide",
+    margin = dict(l = 50, r = 50, t = 50, b = 50),
+)
+
+# Updating Y-Axis
+fig_ep.update_yaxes(
+    title_standoff = 0,
+    visible = False,
+    title=dict(text = "Dialogue Count", font = dict(size = 14), standoff = 20)
+)
+
+# Customizing Facet Row Labels
+fig_ep.for_each_annotation(lambda a: a.update(text=f"{a.text.split('=')[-1]}"))
+
+# Adding Custom Annotation for "Dialogue Count"
+fig_ep.add_annotation(
+    text = "Dialogue Count", x = -0.04, xref = "paper", y = 0.5, yref = "paper",
+    showarrow = False, font = dict(size = 14), textangle = -90
+)
+
+# Adding Custom Annotation for "Season"
+fig_ep.add_annotation(
+    text = "Season", x = 1.04, xref = "paper", y = 0.5, yref = "paper",
+    showarrow = False, font = dict(size = 14), textangle = 90
+)
+
+# Displaying
+fig_ep.show()
+```
+
+# 3 - Emotional Tone Analysis💬
+
+Initially, the `friends_emotions.csv` dataset was intended for emotional labeling, but it provides a limited coverage of emotionally-labelled dialogues (approx. 12k). Instead, sentiment analysis was conducted using TextBlob and BigBird models. Due to the high computational demands of processing the dataset with the models, they were written and executed separately from the website environment. The results obtained from both of the models are stored in `data/tone_model_outputs` directory, from where they will be imported below for visualization purposes. However, if you're interested in examining the model codes yourself, they are provided in `tone_models` folder in the root directory.
+
+## A - TextBlob
+
+```{python}
+#| label: plot-textblob-analysis
+#| code-summary: Plotting Sentiment Analysis
+
+# Importint Dataset
+tb_sentiment = pd.read_csv('data/tone_model_outputs/textblob_sentiment.csv')
+
+# Original Plot
+fig_donut = px.pie(
+    tb_sentiment, names = "speaker", values = "polarity",
+    title = "Emotional Tone Distribution (Polarity) - OG6", hole = 0.5,
+    color_discrete_sequence = px.colors.sequential.Turbo
+)
+
+# Updating Plot
+fig_donut.update_layout(
+  title = {
+    'text': "Emotional Tone Distribution for F.R.I.E.N.D.S", 'x': 0.5,
+    'xanchor': 'center', 'yanchor': 'top', 'font': dict(size = 16)
+  },
+  height = 500, width = 600,
+  margin = dict(t = 50, b = 50, l = 50, r = 50)
+)
+
+# Displaying
+fig_donut.show()
+```
+
+## B - BigBird
+
+```{python}
+#| label: plot-bigbird-analysis
+#| code-summary: Plotting Sentiment Analysis
+
+# Importing Dataset
+bb_sentiment = pd.read_csv('data/tone_model_outputs/bigbird_sentiment.csv')
+
+# Original Plot
+fig_donut = px.pie(
+    bb_sentiment, names = "speaker", values = "bigbird_polarity",
+    title = "Emotional Tone Distribution (Polarity) - OG6", hole = 0.5,
+    color_discrete_sequence = px.colors.sequential.Turbo
+)
+
+# Updating Plot
+fig_donut.update_layout(
+  title = {
+    'text': "Emotional Tone Distribution for F.R.I.E.N.D.S", 'x': 0.5,
+    'xanchor': 'center', 'yanchor': 'top', 'font': dict(size = 16)
+  },
+  height = 500, width = 600,
+  margin = dict(t = 50, b = 50, l = 50, r = 50)
+)
+
+# Displaying
+fig_donut.show()
+```
