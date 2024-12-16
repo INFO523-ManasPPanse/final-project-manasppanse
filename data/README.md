@@ -55,3 +55,7 @@
 ## Presentation
 
 `presentation` - This directory contains the custom `background.jpg` for the title slide, as well as the custom theme file `theme.scss` for the rest of the slides of the presentation.
+
+## Reports
+
+`reports` - This directory contains the `projectreport.pdf` for the entire project.
